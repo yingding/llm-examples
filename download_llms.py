@@ -50,7 +50,7 @@ token = file.read().replace('\n', '')
 # https://www.youtube.com/watch?v=kNke39OZ2k0
 @click.command()
 @click.option('-t','--model-type', 'model_type', default=os.environ['model-type'], type=str, required=False, help=f"set the llama2 type to download: {', '.join(model_map.keys())}, default is 7B")
-def download(model_type):
+def download(model_type: str="7B"):
     """
     This method will download the llama2 model. If cache exists, the cached model will be used.
     
