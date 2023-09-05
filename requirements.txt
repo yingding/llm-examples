@@ -21,3 +21,6 @@ click==8.1.7
 # from a kubeflow notebook
 #
 # kfp==1.8.22
+# 
+# python method overload
+multipledispatch==1.0.0
