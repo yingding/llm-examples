@@ -2,12 +2,22 @@ huggingface_hub==0.16.4
 transformers==4.32.1
 torch==2.0.1
 accelerate==0.22.0
-#huggingface_hub use_auth_token need this.
+# huggingface_hub use_auth_token need this.
 urllib3==2.0.4 
 jsonschema==4.19.0
 fastai==2.7.12
 torchaudio==2.0.2
 torchvision==0.15.2
-#argparse==1.4.0
+# for showing download widget in jupyter notebook
+ipywidgets==8.1.0
+# for python script input arg generation
 click==8.1.7
-#kfp==1.8.22
+# argparse==1.4.0
+#
+# monitor nvidia gpu usage
+# have no permission to access
+# gpustat==1.1.1
+# nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+# from a kubeflow notebook
+#
+# kfp==1.8.22
