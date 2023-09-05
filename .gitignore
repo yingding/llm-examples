@@ -1,3 +1,6 @@
 # ignore the data folder
 **/data
 /.ipynb_checkpoints
+# no .env
+.env
+.slurm_env
