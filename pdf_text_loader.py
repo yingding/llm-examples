@@ -58,6 +58,25 @@ class PDFHelper():
                 return 0
         else:
             return 0
+        
+        
+    def read_txt(self, input) -> str:
+        """read from the give path the text and returns a raw string. 
+           use print to print the content
+        """
+        if isinstance(input, str):
+            file_path = input
+            with open(file_path, "r") as txt_file:
+                content_raw_str = txt_file.read()
+            return content_raw_str
+        elif isinstance(input, int):
+            file_idx = input
+            if (file_idx < len(self.file_path_list)):
+                return self.read_txt(str(self.file_path_list[file_idx]))
+            else:
+                return ""
+        else:
+            return ""  
             
             
 #     # @multifunction(None, int)

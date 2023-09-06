@@ -24,3 +24,10 @@ click==8.1.7
 # 
 # python method overload
 multipledispatch==1.0.0
+# For T5 huggingface need sentencepiece
+sentencepiece==0.1.99
+#
+# Moses Tokenizer for German custom translator
+sacremoses==0.0.53
+# pdf reader
+pypdf==3.15.5
