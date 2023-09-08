@@ -37,6 +37,7 @@ token_file_path = f"{DATA_ROOT}/core-kind/yinwang/.cache/huggingface/token"
 file = open(token_file_path, "r")
 # file read add a new line to the token, remove it.
 token = file.read().replace('\n', '')
+file.close()
 
 # print the raw string to see if there is new line in the token
 # print(r'{}'.format(token))
