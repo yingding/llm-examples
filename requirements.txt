@@ -1,5 +1,5 @@
 huggingface_hub==0.16.4
-transformers==4.32.1
+transformers==4.33.1 #4.32.1
 torch==2.0.1
 accelerate==0.22.0
 # huggingface_hub use_auth_token need this.
