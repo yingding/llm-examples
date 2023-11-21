@@ -1,6 +1,12 @@
 import torch
+# python 3.10+ feature 
+# from warnings import deprecated
 
+# @deprecated("use module accelerator_utils instead")
 class GPUInfoHelper():
+    """
+    this module is deprecated, use accelerator_utils instead.
+    """
     def __init__(self):
         pass
     
@@ -34,8 +40,9 @@ class GPUInfoHelper():
     def accelerator_compute_info(self, device_idx: int) -> None:
         name = torch.cuda.get_device_properties(device_idx).name
         count = torch.cuda.get_device_properties(device_idx).multi_processor_count
-        print(f"Device_name      : {name} \n" +
-              f"Multi_processor  : {count}")    
+        print(f"Device name      : {name} \n" +
+              f"Device idx       : {device_idx} \n" +
+              f"No. of processors: {count}")    
 
 
     def gpu_usage(self) -> None:        
