@@ -86,4 +86,14 @@ class S3BucketHelper():
             "bytesio" : BytesIO(s3.Object(self.conf.bucket_name, x).get()['Body'].read())
         }, s3_keys)
         
-        return map(bytesio_transformer, bytesio_map)   
+        return map(bytesio_transformer, bytesio_map)
+    
+    
+    def upload_objects(self, data: map, key_trans: callable = lambda x:x) -> map:
+        s3 = self._get_s3_resource()
+        bucket = s3.Bucket(self.conf.bucket_name)
+        
+        return map(lambda x:
+            bucket.put_object(Key=key_trans(x.get("name")), Body=x.get("content"))
+            ,data)
+
