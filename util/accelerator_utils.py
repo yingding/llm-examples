@@ -59,7 +59,7 @@ class AcceleratorHelper():
 
 
     @staticmethod
-    def init_cuda_torch(uuids: str, data_path: str) -> None:
+    def init_cuda_torch(uuids: str, data_path: str, debug: bool = False) -> None:
         """setup the default env variables for transformers
         
         Args:
@@ -68,7 +68,11 @@ class AcceleratorHelper():
         os.environ["WORLD_SIZE"] = "1" 
         os.environ["CUDA_VISIBLE_DEVICES"] = uuids 
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512" #512
-        os.environ['XDG_CACHE_HOME']=f"{data_path}/models"
+        os.environ['XDG_CACHE_HOME'] = f"{data_path}/models"
+        if (debug):
+            # for debugging      
+            os.environ["CUDA_LAUNCH_BLOCKING"] = "1" 
+        # os.environ["TOKENIZERS_PARALLELISM"]="false" 
 
 
 class AcceleratorStatus():
