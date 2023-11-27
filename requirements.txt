@@ -1,9 +1,12 @@
 huggingface_hub==0.19.4
 # huggingface_hub==0.17.1 #0.16.4
+
 transformers==4.35.2
 # transformers==4.31.0 # 4.33.1 has a bug the llama2 is not loading to migs gpu
+
 #xformers==0.0.20 # do not install xformers, which makes accelerate not loading the llm model into gpus
 # huggingface_hub use_auth_token need this.
+
 # urllib3==2.0.4
 urllib3==1.26.16
 jsonschema==4.19.0
@@ -52,3 +55,7 @@ xformers==0.0.22.post7+cu118
 
 #torchdata==0.6.1
 #torchtext==0.15.2
+
+
+## langchain LLM 
+langchain==0.0.312 # HuggingFacePipeline broken after 0.0.313 to 0.0.340
