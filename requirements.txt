@@ -61,8 +61,13 @@ xformers==0.0.22.post7+cu118
 langchain==0.0.341 
 # need Pydantic 1.10.12 to better evaluate typehints
 # https://github.com/langchain-ai/langchain/issues/8577#issuecomment-1663249273
-pydantic==2.5.2
+# pydantic==2.5.2
+pydantic==1.10.13 
+# docarray doesn't work with pydantic 2.xx, pydantic_core is installed with 2.xx, must be removed. 
 # pydantic>=1.10.13 # typehints
+unstructured==0.11.0 # for langchain S3DirectoryLoader to load txt file
+sentence-transformers==2.2.2 # for langchain vectorestore embedding model
+docarray==0.39.1 # langchain DocArrayInMemorySearch nned docarray
 
 # llama-index==0.9.8.post1
 # langchain==0.0.312 # HuggingFacePipeline broken after 0.0.313 to 0.0.340
