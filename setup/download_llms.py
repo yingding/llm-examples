@@ -80,8 +80,8 @@ def get_token(dir_setting: DirectorySetting):
 # https://click.palletsprojects.com/en/8.1.x/options/
 # https://www.youtube.com/watch?v=kNke39OZ2k0
 @click.command()
-@click.option('-t','--model-type', 'model_type', default=default_model_type, type=str, required=False, help=f"set the llm type to download: {', '.join(model_map.keys())}, default is {default_model_type}")
-@click.option('-m','--mode', 'dir_mode', default=default_dir_mode, type=str, required=False, help=f"set the directory settings to use: {', '.join(dir_mode_map.keys())}, default is {default_dir_mode}")
+@click.option('-t','--model-type', 'model_type', default=default_model_type, type=str, required=False, help=f"set the llm type to download:\n{', '.join(model_map.keys())}, default is {default_model_type}")
+@click.option('-m','--mode', 'dir_mode', default=default_dir_mode, type=str, required=False, help=f"set the directory settings to use:\n{', '.join(dir_mode_map.keys())}, default is {default_dir_mode}")
 def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode):
     """download the llm model"""
     # os.environ['model-type']="mistral7B-01"
@@ -114,10 +114,13 @@ def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode)
     print("-"*10)
     
     if need_token(model_type):
-        kwargs = {"token": get_token(dir_setting)}
         # kwargs = {"use_auth_token": get_token(dir_setting)}
+        kwargs = {"token": get_token(dir_setting)}
+        print("huggingface token loaded")
     else:
-        kwargs = {}    
+        kwargs = {}
+        print("huggingface token is NOT needed")
+    print("-"*10)
     tokenizer = AutoTokenizer.from_pretrained(model_name, **kwargs)
     model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     
