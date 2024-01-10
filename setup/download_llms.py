@@ -104,7 +104,8 @@ def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode)
     python3 download_llms.py -t mistral7B-01 -m kf_notebook
     
     Args:
-      model_type: "llama7B-chat", ...
+      model_type: "llama7B-chat", "llama13B-chat", "llama70B-chat", "mistral7B-01", "mistral7B-inst02", "mistral8x7B-01"
+      dir_mode: "kf_notebook", "mac_local"
     """
     model_name = model_map.get(model_type, model_map[default_model_type])
     
