@@ -28,11 +28,15 @@ os.environ['XDG_CACHE_HOME']=f"{DATA_ROOT}/core-kind/yinwang/models"
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 
 model_map = {
-    "7B": "meta-llama/Llama-2-7b-chat-hf",
-    "13B" : "meta-llama/Llama-2-13b-chat-hf",
-    "70B" : "meta-llama/Llama-2-70b-chat-hf",
-    # "70B" : "meta-llama/Llama-2-70b-hf" 
+    "llama7B-chat":     "meta-llama/Llama-2-7b-chat-hf",
+    "llama13B-chat" :   "meta-llama/Llama-2-13b-chat-hf",
+    "llama70B-chat" :   "meta-llama/Llama-2-70b-chat-hf",
+    # "70B" : "meta-llama/Llama-2-70b-hf"
+    "mistral7B-01":     "mistralai/Mistral-7B-v0.1",
+    "mistral7B-inst02": "mistralai/Mistral-7B-Instruct-v0.2",
+    "mistral8x7B-01":   "mistralai/Mistral-Mixtral-8x7B-v0.1", 
 }
+
 token_file_path = f"{DATA_ROOT}/core-kind/yinwang/.cache/huggingface/token"
 file = open(token_file_path, "r")
 # file read add a new line to the token, remove it.
