@@ -18,14 +18,24 @@ import click
 # import argpass
 
 
+'''set the model download cache directory'''
+# set the home directory for the models
 
-# set the model download cache directory
-# DATA_ROOT="/data"
-DATA_ROOT="/home/jovyan/llm-models"
-os.environ['model-type']="7B"
-os.environ['XDG_CACHE_HOME']=f"{DATA_ROOT}/core-kind/yinwang/models"
+from dataclasses import dataclass
+@dataclass
+class DirectorySetting:
+    """set the directory for the model download"""
+    home_dir: str="/home/jovyan/llm-models"
+    transformers_cache_home: str="core-kind/yinwang/models"
+    huggingface_token_file: str="core-kind/yinwang/.cache/huggingface/token"
 
-from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
+    def get_cache_home(self):
+        """get the cache home"""
+        return f"{self.home_dir}/{self.transformers_cache_home}"
+    
+    def get_token_file(self):
+        """get the token file"""
+        return f"{self.home_dir}/{self.huggingface_token_file}"
 
 model_map = {
     "llama7B-chat":     "meta-llama/Llama-2-7b-chat-hf",
@@ -37,11 +47,27 @@ model_map = {
     "mistral8x7B-01":   "mistralai/Mistral-Mixtral-8x7B-v0.1", 
 }
 
-token_file_path = f"{DATA_ROOT}/core-kind/yinwang/.cache/huggingface/token"
-file = open(token_file_path, "r")
-# file read add a new line to the token, remove it.
-token = file.read().replace('\n', '')
-file.close()
+dir_mode_map = {
+    "kf_notebook": DirectorySetting(),
+    "mac_local": DirectorySetting(home_dir="/Users/yingding", transformers_cache_home="MODELS", huggingface_token_file="MODELS/.huggingface_token"),
+}
+
+default_model_type = "mistral7B-01"
+default_dir_mode = "kf_notebook"
+
+
+def need_token(model_type: str, model_name_prefix: str="llama"):
+    """check if the model needs token"""
+    return model_type.startswith(model_name_prefix)
+
+
+def get_token(dir_setting: DirectorySetting):
+    """get the token from the token file"""
+    token_file_path = dir_setting.get_token_file()
+    with open(token_file_path, "r") as file:
+        # file read add a new line to the token, remove it.
+        token = file.read().replace('\n', '')
+    return token
 
 # print the raw string to see if there is new line in the token
 # print(r'{}'.format(token))
@@ -54,32 +80,46 @@ file.close()
 # https://click.palletsprojects.com/en/8.1.x/options/
 # https://www.youtube.com/watch?v=kNke39OZ2k0
 @click.command()
-@click.option('-t','--model-type', 'model_type', default=os.environ['model-type'], type=str, required=False, help=f"set the llama2 type to download: {', '.join(model_map.keys())}, default is 7B")
-def download(model_type: str="7B"):
+@click.option('-t','--model-type', 'model_type', default=default_model_type, type=str, required=False, help=f"set the llm type to download: {', '.join(model_map.keys())}, default is {default_model_type}")
+@click.option('-m','--mode', 'dir_mode', default=default_dir_mode, type=str, required=False, help=f"set the directory settings to use: {', '.join(dir_mode_map.keys())}, default is {default_dir_mode}")
+def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode):
+    """download the llm model"""
+    # os.environ['model-type']="mistral7B-01"
+    dir_setting=dir_mode_map.get(dir_mode, dir_mode_map[default_dir_mode])
+    os.environ['XDG_CACHE_HOME']=dir_setting.get_cache_home()
+
+    from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
     """
-    This method will download the llama2 model. If cache exists, the cached model will be used.
+    This method will download the llm model. If cache exists, the cached model will be used.
     
     valid call:
-    python3 download_llms.py -t 7B
-    python3 download_llms.py --model-type 7B
+    python3 download_llms.py -t mistral7B-01
+    python3 download_llms.py --model-type mistral7B-01
     
     invalid call:
-    python3 download_llms.py -t=7B
-    python3 download_llms.py --model-type=7B
+    python3 download_llms.py -t=mistral7B-01
+    python3 download_llms.py --model-type=mistral7B-01
+
+    set directory:
+    python3 download_llms.py -t mistral7B-01 -m kf_notebook
     
     Args:
-      model_type: "7B", "13B", "70B"
+      model_type: "llama7B-chat", ...
     """
-    # model_type = params.get("model-type", os.environ['model-type'])  
-    model_name = model_map.get(model_type, model_map[os.environ['model-type']])
+    model_name = model_map.get(model_type, model_map[default_model_type])
     
     print("-"*10)
     print(f"model_type: {model_type}")
     print(f"model_name: {model_name}")
     print("-"*10)
-        
-    tokenizer = AutoTokenizer.from_pretrained(model_name, use_auth_token=token)
-    model = AutoModelForCausalLM.from_pretrained(model_name, use_auth_token=token)
+    
+    if need_token(model_type):
+        kwargs = {"token": get_token(dir_setting)}
+        # kwargs = {"use_auth_token": get_token(dir_setting)}
+    else:
+        kwargs = {}    
+    tokenizer = AutoTokenizer.from_pretrained(model_name, **kwargs)
+    model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
     
 if __name__ == '__main__':
     """
