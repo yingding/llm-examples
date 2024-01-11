@@ -76,10 +76,6 @@ class AcceleratorHelper():
 
 
 class AcceleratorStatus():
-    def __init__(self):
-        pass
-    
-    
     # Reference: https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
     # from typing import Tuple
     def byte_gb_info(self, byte_mem) -> str:
@@ -87,6 +83,43 @@ class AcceleratorStatus():
         # format the f string float with :.2f to decimal digits
         # https://zetcode.com/python/fstring/
         return f"{(byte_mem/1024**3):4f} GB"
+    
+    def gpu_usage(self) -> None:
+        pass
+
+
+    # factory method to create the correct accelerator status class
+    @staticmethod
+    def create_accelerator_status() -> 'AcceleratorStatus':
+        # check if the MPS is enabled
+        if torch.backends.mps.is_available():
+            return MpsAcceleratorStatus()
+        elif torch.cuda.is_available():
+            return CudaAcceleratorStatus()
+        else:
+            return AcceleratorStatus()
+
+        
+class MpsAcceleratorStatus(AcceleratorStatus):
+    def __init__(self):
+        pass
+
+
+    def accelerator_mem_info(self):
+        # allocated
+        a = torch.mps.driver_allocated_memory()
+        print(f"Allocated memory : {self.byte_gb_info(a)}")   
+
+
+    def gpu_usage(self) -> None:        
+        print("-"*20)            
+        self.accelerator_mem_info()
+        print("-"*20)
+
+
+class CudaAcceleratorStatus(AcceleratorStatus):
+    def __init__(self):
+        pass
 
 
     def accelerator_mem_info(self, device_idx: int):
