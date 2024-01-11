@@ -4,6 +4,29 @@ import subprocess
 import re
 import sys
 import time
+from dataclasses import dataclass
+
+
+@dataclass
+class DirectorySetting:
+    """set the directory for the model download"""
+    home_dir: str="/home/jovyan/llm-models"
+    transformers_cache_home: str="core-kind/yinwang/models"
+    huggingface_token_file: str="core-kind/yinwang/.cache/huggingface/token"
+
+    def get_cache_home(self):
+        """get the cache home"""
+        return f"{self.home_dir}/{self.transformers_cache_home}"
+    
+    def get_token_file(self):
+        """get the token file"""
+        return f"{self.home_dir}/{self.huggingface_token_file}"
+
+
+DIR_MODE_MAP = {
+    "kf_notebook": DirectorySetting(),
+    "mac_local": DirectorySetting(home_dir="/Users/yingding", transformers_cache_home="MODELS", huggingface_token_file="MODELS/.huggingface_token"),
+}
 
 
 class AcceleratorHelper():
@@ -72,7 +95,15 @@ class AcceleratorHelper():
         if (debug):
             # for debugging      
             os.environ["CUDA_LAUNCH_BLOCKING"] = "1" 
-        # os.environ["TOKENIZERS_PARALLELISM"]="false" 
+        # os.environ["TOKENIZERS_PARALLELISM"]="false"
+            
+
+    @staticmethod
+    def init_mps_torch(dir_setting: DirectorySetting) -> None:
+        """setup the default env variables for transformers
+        """
+        os.environ["WORLD_SIZE"] = "1" 
+        os.environ['XDG_CACHE_HOME'] = dir_setting.get_cache_home()
 
 
 class AcceleratorStatus():

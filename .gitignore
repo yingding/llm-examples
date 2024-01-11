@@ -6,3 +6,6 @@
 .slurm_env
 *.pyc
 *.yaml
+
+# ignore the local test trainer huggingface FT folder
+test_trainer/
