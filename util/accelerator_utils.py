@@ -139,10 +139,10 @@ class MpsAcceleratorStatus(AcceleratorStatus):
     def accelerator_mem_info(self):
         # allocated
         a = torch.mps.driver_allocated_memory()
-        print(f"Allocated memory : {self.byte_gb_info(a)}")   
+        print(f"Allocated memory : {self.byte_gb_info(a)}")
 
 
-    def gpu_usage(self) -> None:        
+    def gpu_usage(self) -> None:
         print("-"*20)            
         self.accelerator_mem_info()
         print("-"*20)
