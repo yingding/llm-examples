@@ -104,6 +104,8 @@ class AcceleratorHelper():
         """
         os.environ["WORLD_SIZE"] = "1" 
         os.environ['XDG_CACHE_HOME'] = dir_setting.get_cache_home()
+        # os.environ['TOKENIZERS_PARALLELISM'] = "false"
+        # https://github.com/huggingface/transformers/issues/5486?ref=assemblyai.com
 
 
 class AcceleratorStatus():
