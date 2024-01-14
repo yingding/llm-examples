@@ -38,3 +38,7 @@ Reference:
 # jupyter kernelspec uninstall -y <VENV_NAME>
 jupyter kernelspec uninstall -y shap3.10
 ```
+
+# Relevant tech info
+
+* [LLM tech docs](./LLM.md)

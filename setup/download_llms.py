@@ -92,6 +92,9 @@ def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode)
     """
     This method will download the llm model. If cache exists, the cached model will be used.
     
+    get help:
+    python3 download_llms.py --help
+
     valid call:
     python3 download_llms.py -t mistral7B-01
     python3 download_llms.py --model-type mistral7B-01
