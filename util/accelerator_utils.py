@@ -29,6 +29,22 @@ DIR_MODE_MAP = {
 }
 
 
+class TokenHelper():
+    @staticmethod
+    def need_token(model_type: str, model_name_prefix: str="llama"):
+        """check if the model needs token"""
+        return model_type.startswith(model_name_prefix)
+    
+    @staticmethod
+    def get_token(dir_setting: DirectorySetting):
+        """get the token from the token file"""
+        token_file_path = dir_setting.get_token_file()
+        with open(token_file_path, "r") as file:
+            # file read add a new line to the token, remove it.
+            token = file.read().replace('\n', '')
+        return token
+
+
 class AcceleratorHelper():
     @staticmethod
     def print_container_info() -> None:
