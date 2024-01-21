@@ -44,7 +44,8 @@ model_map = {
     # "70B" : "meta-llama/Llama-2-70b-hf"
     "mistral7B-01":     "mistralai/Mistral-7B-v0.1",
     "mistral7B-inst02": "mistralai/Mistral-7B-Instruct-v0.2",
-    "mistral8x7B-01":   "mistralai/Mistral-Mixtral-8x7B-v0.1", 
+    "mixtral8x7B-01":   "mistralai/Mixtral-8x7B-v0.1",
+    "mixtral8x7B-inst01":   "mistralai/Mixtral-8x7B-Instruct-v0.1", 
 }
 
 dir_mode_map = {
