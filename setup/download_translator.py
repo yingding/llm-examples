@@ -1,22 +1,17 @@
 """
-Before run this script, need to generate a token from huggingface
-To login, `huggingface_hub` requires a token generated from https://huggingface.co/settings/tokens
--> user profile -> settings -> Access Tokens -> New token
-name: llama2
-role: read
+Run this script to download a T5 family translator model
 
-Then call
-huggingface-cli
-
-use 
-echo "<my_token>" > token
-to create a token instead of using vi, which will add a new line char to token automatically.
-
+Example: 
+>> python3 download_translator.py --help 
 """
 import os
 import click
-# import argpass
 
+# set the model download cache directory
+# DATA_ROOT="/data"
+# DATA_ROOT="/home/jovyan/llm-models"
+# os.environ['model-type']="small"
+# os.environ['XDG_CACHE_HOME']=f"{DATA_ROOT}/core-kind/yinwang/models"
 
 '''set the model download cache directory'''
 # set the home directory for the models
@@ -37,15 +32,37 @@ class DirectorySetting:
         """get the token file"""
         return f"{self.home_dir}/{self.huggingface_token_file}"
 
+
 model_map = {
-    "llama7B-chat":     "meta-llama/Llama-2-7b-chat-hf",
-    "llama13B-chat" :   "meta-llama/Llama-2-13b-chat-hf",
-    "llama70B-chat" :   "meta-llama/Llama-2-70b-chat-hf",
-    # "70B" : "meta-llama/Llama-2-70b-hf"
-    "mistral7B-01":     "mistralai/Mistral-7B-v0.1",
-    "mistral7B-inst02": "mistralai/Mistral-7B-Instruct-v0.2",
-    "mixtral8x7B-01":   "mistralai/Mixtral-8x7B-v0.1",
-    "mixtral8x7B-inst01":   "mistralai/Mixtral-8x7B-Instruct-v0.1", 
+   "small": "google/mt5-small", # 1.2 GB
+   "base" : "google/mt5-base", # 2.33 GB
+   "large" : "google/mt5-large", # 4.9 GB,
+   "xl" : "google/mt5-xl", # 15 GB
+   "xxl" : "google/mt5-xxl" # 51.7 GB
+}
+
+
+# from transformers import T5Tokenizer, T5ForConditionalGeneration
+
+# T5 model family info on huggingface
+# https://huggingface.co/docs/transformers/model_doc/t5
+# Note: T5 can only translate from "translate_en_to_de" but not de_to_en
+# need to use mt5 
+
+# model_map = {
+#    "small": "t5-small",
+#    "base" : "t5-base",
+#    "large" : "t5-large",
+#    "3B" : "t5-3b", # 11.4 GB
+#    "11B" : "t5-11b" # 45.2 GB
+# }
+
+model_map = {
+   "small": "google/mt5-small", # 1.2 GB
+   "base" : "google/mt5-base", # 2.33 GB
+   "large" : "google/mt5-large", # 4.9 GB,
+   "xl" : "google/mt5-xl", # 15 GB
+   "xxl" : "google/mt5-xxl" # 51.7 GB
 }
 
 dir_mode_map = {
@@ -53,7 +70,7 @@ dir_mode_map = {
     "mac_local": DirectorySetting(home_dir="/Users/yingding", transformers_cache_home="MODELS", huggingface_token_file="MODELS/.huggingface_token"),
 }
 
-default_model_type = "mistral7B-01"
+default_model_type = "small"
 default_dir_mode = "kf_notebook"
 
 
@@ -70,8 +87,15 @@ def get_token(dir_setting: DirectorySetting):
         token = file.read().replace('\n', '')
     return token
 
+# token_file_path = f"{DATA_ROOT}/core-kind/yinwang/.cache/huggingface/token"
+# file = open(token_file_path, "r")
+
+# file read add a new line to the token, remove it.
+# token = file.read().replace('\n', '')
+
 # print the raw string to see if there is new line in the token
 # print(r'{}'.format(token))
+
 
 # Reference: https://click.palletsprojects.com/en/8.1.x/quickstart/
 # @click.option(..., is_flag=True, ...) set the option to be boolean
@@ -81,45 +105,42 @@ def get_token(dir_setting: DirectorySetting):
 # https://click.palletsprojects.com/en/8.1.x/options/
 # https://www.youtube.com/watch?v=kNke39OZ2k0
 @click.command()
-@click.option('-t','--model-type', 'model_type', default=default_model_type, type=str, required=False, help=f"set the llm type to download:\n{', '.join(model_map.keys())}, default is {default_model_type}")
+@click.option('-t','--model-type', 'model_type', default=default_model_type, type=str, required=False, help=f"set the translator type to download:\n{', '.join(model_map.keys())}, default is {default_model_type}")
 @click.option('-m','--mode', 'dir_mode', default=default_dir_mode, type=str, required=False, help=f"set the directory settings to use:\n{', '.join(dir_mode_map.keys())}, default is {default_dir_mode}")
 def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode):
     """
-    This method will download the llm model. If cache exists, the cached model will be used.
-    
+    This method will download a T5 translator model. If cache exists, the cached model will be used.
+
     get help:
-    python3 download_llms.py --help
+    python3 download_translator.py --help
 
     valid call:
-    python3 download_llms.py -t mistral7B-01
-    python3 download_llms.py --model-type mistral7B-01
+    python3 download_translator.py -t small
+    python3 download_translator.py --model-type small
     
-    invalid call:
-    python3 download_llms.py -t=mistral7B-01
-    python3 download_llms.py --model-type=mistral7B-01
-
+    
     set directory:
-    python3 download_llms.py -t mistral7B-01 -m kf_notebook
+    python3 download_translator.py -t small -m kf_notebook
     
     Args:
-      model_type: "llama7B-chat", "llama13B-chat", "llama70B-chat", "mistral7B-01", "mistral7B-inst02", "mistral8x7B-01"
-      dir_mode: "kf_notebook", "mac_local"
+      model_type: "small", ..., "3B", "11B"
     """
-    # os.environ['model-type']="mistral7B-01"
+    # model_type = params.get("model-type", os.environ['model-type'])
     dir_setting=dir_mode_map.get(dir_mode, dir_mode_map[default_dir_mode])
     os.environ['XDG_CACHE_HOME']=dir_setting.get_cache_home()
     print("-"*10)
     print(f"download dir: {os.environ['XDG_CACHE_HOME']}")
+    
+    from transformers import MT5Model, MT5ForConditionalGeneration, MT5TokenizerFast, MT5Config
 
-    from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
-
+    # model_name = model_map.get(model_type, model_map[os.environ['model-type']])
     model_name = model_map.get(model_type, model_map[default_model_type])
     
     print("-"*10)
     print(f"model_type: {model_type}")
     print(f"model_name: {model_name}")
     print("-"*10)
-    
+
     if need_token(model_type):
         # kwargs = {"use_auth_token": get_token(dir_setting)}
         kwargs = {"token": get_token(dir_setting)}
@@ -128,20 +149,23 @@ def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode)
         kwargs = {}
         print("huggingface token is NOT needed")
     print("-"*10)
-    tokenizer = AutoTokenizer.from_pretrained(model_name, **kwargs)
-    model = AutoModelForCausalLM.from_pretrained(model_name, **kwargs)
+    
+    tokenizer = MT5TokenizerFast.from_pretrained(model_name)
+    model = MT5ForConditionalGeneration.from_pretrained(model_name)
+    
+    # tokenizer = T5Tokenizer.from_pretrained(model_name)
+    # model = T5ForConditionalGeneration.from_pretrained(model_name)
+    
     
 if __name__ == '__main__':
     """
     uses default for click
     https://stackoverflow.com/questions/49011223/python-correct-use-of-click-with-main-and-init
+    
+    translator on huggingface: 
+    https://huggingface.co/learn/nlp-course/chapter7/4?fw=tf
+    
+    Inference and Fine-tuning T5 model
+    https://huggingface.co/docs/transformers/model_doc/t5
     """
-#    parser = argparse.ArgumentParser()
-#    parser.add_argument('--model-type', dest='model-type',
-#                        default=os.environ['model-type'], type=str, help='the llama2 type to download: 7B, 13B')
-    
-#    args = parser.parse_args()
-#    params_dict = args.__dict__
-    
-#    print(params_dict)
     download()
