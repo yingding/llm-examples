@@ -1,9 +1,9 @@
-huggingface_hub==0.20.2
-# huggingface_hub==0.19.4
+# huggingface_hub==0.20.2
+huggingface_hub==0.20.3
 
-transformers==4.36.2
+transformers==4.37.1
+# transformers==4.36.2
 # transformers==4.35.2
-# transformers==4.31.0 # 4.33.1 has a bug the llama2 is not loading to migs gpu
 
 #xformers==0.0.20 # do not install xformers, which makes accelerate not loading the llm model into gpus
 # huggingface_hub use_auth_token need this.
@@ -51,7 +51,7 @@ torchvision==0.16.2
 
 
 ## langchain LLM
-langchain==0.1.0
+langchain==0.1.4 # 0.1.0 
 # langchain==0.0.354
 # need Pydantic 1.10.12 to better evaluate typehints
 # https://github.com/langchain-ai/langchain/issues/8577#issuecomment-1663249273

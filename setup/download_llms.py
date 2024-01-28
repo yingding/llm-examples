@@ -88,6 +88,7 @@ def download(model_type: str=default_model_type, dir_mode: str=default_dir_mode)
     # os.environ['model-type']="mistral7B-01"
     dir_setting=dir_mode_map.get(dir_mode, dir_mode_map[default_dir_mode])
     os.environ['XDG_CACHE_HOME']=dir_setting.get_cache_home()
+    print(f"download dir: {os.environ['XDG_CACHE_HOME']}")
 
     from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
     """
