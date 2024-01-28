@@ -7,12 +7,6 @@ Example:
 import os
 import click
 
-# set the model download cache directory
-# DATA_ROOT="/data"
-# DATA_ROOT="/home/jovyan/llm-models"
-# os.environ['model-type']="small"
-# os.environ['XDG_CACHE_HOME']=f"{DATA_ROOT}/core-kind/yinwang/models"
-
 '''set the model download cache directory'''
 # set the home directory for the models
 
@@ -31,15 +25,6 @@ class DirectorySetting:
     def get_token_file(self):
         """get the token file"""
         return f"{self.home_dir}/{self.huggingface_token_file}"
-
-
-model_map = {
-   "small": "google/mt5-small", # 1.2 GB
-   "base" : "google/mt5-base", # 2.33 GB
-   "large" : "google/mt5-large", # 4.9 GB,
-   "xl" : "google/mt5-xl", # 15 GB
-   "xxl" : "google/mt5-xxl" # 51.7 GB
-}
 
 
 # from transformers import T5Tokenizer, T5ForConditionalGeneration
