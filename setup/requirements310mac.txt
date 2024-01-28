@@ -88,3 +88,8 @@ bitsandbytes==0.42.0
 
 # Nvidia GPU only (speed up transformers architecture), macosx arm chip has integrated gpu
 # xformers==0.0.23.post1
+
+# ARM64 runtimes
+# https://github.com/huggingface/optimum
+# https://discuss.huggingface.co/t/optimum-arm64-quantized-models-on-apple-silicon-m1/31867
+# optimum[onnxruntime]==1.16.2
