@@ -9,3 +9,5 @@
 
 # ignore the local test trainer huggingface FT folder
 test_trainer/
+
+**/mlflow-poddefault.yaml
