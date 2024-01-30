@@ -93,3 +93,6 @@ bitsandbytes==0.42.0
 # https://github.com/huggingface/optimum
 # https://discuss.huggingface.co/t/optimum-arm64-quantized-models-on-apple-silicon-m1/31867
 # optimum[onnxruntime]==1.16.2
+
+# mlflow LLM evaluation
+mlflow==2.10.0

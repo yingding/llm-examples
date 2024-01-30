@@ -48,3 +48,6 @@ python3 -m pip list
 # Relevant tech info
 
 * [LLM tech docs](./LLM.md)
+* mlflow https://mlflow.org/docs/latest/llms/langchain/guide/index.html
+* mlflow langchain flavour https://mlflow.org/docs/latest/llms/langchain/index.html
+
