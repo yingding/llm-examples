@@ -1,7 +1,7 @@
 # huggingface_hub==0.20.2
 huggingface_hub==0.20.3
 
-transformers==4.37.1
+transformers==4.37.2
 # transformers==4.36.2
 # transformers==4.35.2
 
@@ -96,3 +96,4 @@ bitsandbytes==0.42.0
 
 # mlflow LLM evaluation
 mlflow==2.10.0
+typing-extensions>=4.2.0

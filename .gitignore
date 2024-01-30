@@ -11,3 +11,4 @@
 test_trainer/
 
 **/mlflow-poddefault.yaml
+**/mlruns/**
