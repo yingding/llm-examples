@@ -45,6 +45,23 @@ python3 -m pip freeze | xargs pip uninstall -y
 python3 -m pip list
 ```
 
+## Sync AIMLflow
+```shell
+aim_repo_path=./aimruns
+mlflow_uri=./mlruns
+mkdir ${aim_repo_path}
+cd ${aim_repo_path}
+aim init
+cd ..
+# start a watch process
+aimlflow sync --mlflow-tracking-uri=${mlflow_uri} --aim-repo=${aim_repo_path}
+# start a second terminal
+aim up --repo=${aim_repo_path}
+``````
+
+
+
+
 # Relevant tech info
 
 * [LLM tech docs](./LLM.md)
