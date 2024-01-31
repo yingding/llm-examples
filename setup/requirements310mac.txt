@@ -99,3 +99,5 @@ mlflow==2.10.0
 typing-extensions>=4.2.0
 aim==3.17.5
 aim-mlflow==0.2.1
+textstat==0.7.3
+tiktoken==0.5.2

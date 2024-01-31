@@ -57,10 +57,20 @@ cd ..
 aimlflow sync --mlflow-tracking-uri=${mlflow_uri} --aim-repo=${aim_repo_path}
 # start a second terminal
 aim up --repo=${aim_repo_path}
-``````
+```
 
+## Restart MLflow UI
+If the default port 5000 is used
+```shell
+ps -A | grep gunicorn
+pkill -f gunicorn
+ps -A | grep gunicorn
+mlflow ui
+# mlflow server --host 127.0.0.1 --port 8080
+```
 
-
+Reference:
+* https://stackoverflow.com/questions/60531166/how-to-safely-shutdown-mlflow-ui/63141642#63141642
 
 # Relevant tech info
 
