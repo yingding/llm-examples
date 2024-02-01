@@ -14,7 +14,8 @@ test_trainer/
 **/mlruns/**
 **/aimruns/**
 
-**/dist
+!/dist/*.whl
+**/dist/*.tar.gz
 **/applyllm.egg-info
 **/.pypirc
 
