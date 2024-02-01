@@ -221,9 +221,13 @@ Local without CI/CD
 package="./ApplyLlm";
 cd $package;
 python3 -m twine upload --repository gitlab-lrz dist/*
-``````
+```
 
 You shall see the "package/tag" in the package registry
+
+## Makefile **space 4 issue
+Makefile need tab as indent, not space 4
+* https://stackoverflow.com/questions/16931770/makefile4-missing-separator-stop/72198029#72198029
 
 ## Reference:
 * build python resource package .whl https://docs.gitlab.com/ee/user/packages/workflows/build_packages.html#pypi
