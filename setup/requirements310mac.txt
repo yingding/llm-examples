@@ -101,3 +101,12 @@ aim==3.17.5
 aim-mlflow==0.2.1
 textstat==0.7.3
 tiktoken==0.5.2
+
+# build python packages
+build==1.0.3
+twine==4.0.2 # upload .whl package distribution file
+
+# install your own gitlab package 
+--index-url https://gitlab.lrz.de/api/v4/projects/150553/packages/pypi/simple
+--trusted-host https://gitlab.lrz.de
+applyllm==0.0.1
