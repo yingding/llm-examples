@@ -7,6 +7,23 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --no-cache-dir -r ./setup/requirements310mac.txt
 ```
 
+## Test the load dev package
+```shell
+VENV_NAME="llm3.10"
+VENV_DIR="$HOME/VENV"
+source ${VENV_DIR}/${VENV_NAME}/bin/activate;
+make clean && make build && make reload
+```
+
+## Publish the pypi package
+```shell
+VENV_NAME="llm3.10"
+VENV_DIR="$HOME/VENV"
+source ${VENV_DIR}/${VENV_NAME}/bin/activate;
+make clean && make build && make publish
+```
+* `$HOME/.pypirc` shall be availabe, see the section `deploy token` below to create `$HOME/.pypirc` file
+
 ## Add a jupyter notebook kernel to VENV
 ```shell
 VENV_NAME="llm3.10"
