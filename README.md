@@ -1,3 +1,7 @@
+# DEPRECATED
+
+The llm-examples are moved to (applyllm)[https://github.com/yingding/applyllm] repo, unter `llm-examples`, this repo is deprecated onwards 2.Feb.2024.
+
 # llm-examples
 this repository contains codes for loading and training open source llm models e.g. LlaMA2
 
